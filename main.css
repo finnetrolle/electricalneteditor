@@ -1,0 +1,17 @@
+.map-container{
+    float:left;
+    position: relative;
+    height: 100%;
+    width: 80%;
+}
+.map{
+    height: 100%;
+    width: 100%;
+    background: url(background.jpg);
+}
+
+.figure-control{
+    padding-right: 200px;
+    float: right;
+    padding-top: 50px;
+}

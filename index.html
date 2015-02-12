@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <script data-main="main.js" src="requireJs.js"></script>
+    <link rel="stylesheet" href="main.css"></link>
+    <link rel="stylesheet" href="OpenLayers.css"></link>
+    <link rel="stylesheet" href="reset.css"></link>
+    <title></title>
+</head>
+<body>
+    <div class="map-container">
+        <div id="map" class="map">
+        </div>
+    </div>
+    <div class="figure-control">
+        <button class="editor-button">Edit</button>
+        <button class="save-button">Save</button>
+        <button class="close-editor-button">Close editor</button>
+        <ul class="geometry-type-list" hidden="hidden">
+            <p><b>Choose figure type</b>
+            <li>
+                <input type="radio" name="figureType" value="point">Point<Br>
+            </li>
+            <li>
+                <input type="radio" name="figureType" value="line">Line<Br>
+            </li>
+        </ul>
+        </p>
+    </div>
+</body>
+</html>
