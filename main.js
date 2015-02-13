@@ -4,7 +4,10 @@
 requirejs.config({
     map: {
             'Controllers/BaseController': { 'Interfaces/Services/IAppStartService': 'Services/AppStartService' },
-            'Services/AppStartService': { 'Interfaces/Services/IMapService': 'Services/MapService' }
+            'Services/AppStartService': {
+                'Interfaces/Services/IMapService': 'Services/MapService',
+                'Interfaces/Services/IRESTTalker': 'Services/RESTTalker'
+            }
     }
 });
 

@@ -1,12 +1,13 @@
 /**
  * Created by Travin on 10.02.2015.
  */
-define(['Interfaces/Services/IAppStartService', 'Interfaces/Services/IMapService', 'applicationSettings'], function(interface, MapService, settings){
+define(['Interfaces/Services/IAppStartService', 'Interfaces/Services/IMapService','Interfaces/Services/IRESTTalker', 'applicationSettings'], function(interface, MapService, RestTalker, settings){
     return function AppStartService(){
 
         interface.call(this);
         var appSettings = settings;
         var mapService = new MapService();
+        var restTalker = new RestTalker();
 
         this.startApplication = function(){
             mapService.initMap(appSettings);
@@ -32,6 +33,10 @@ define(['Interfaces/Services/IAppStartService', 'Interfaces/Services/IMapService
             $(appSettings.selectors.figureTypesElement).on(appSettings.eventNames.figureTypeChange, function(){
                 mapService.changeDrawingFigureType($(this).val());
             });
+
+            $(document).on('sendRequest', function(e, data){
+                restTalker.sendData(data);
+            })
 
         };
     }

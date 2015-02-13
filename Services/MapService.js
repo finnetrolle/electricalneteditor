@@ -60,18 +60,30 @@ define(['Interfaces/Services/IMapService', 'ol'], function(Interface, openLayers
             });
 
             appSettings.drawer.on('drawend', function(e, a, b, c,d){
-                var info = appSettings.pointObjects.big;
-                info.centerPoint = e.feature.getGeometry().getCoordinates();
-                $.ajax({
-                    url: 'http://172.16.22.55:1432/RESTService.svc/value',
-                    data: JSON.stringify(info),
-                    dataType: 'json',
-                    type: 'POST',
-                    async: false
-                }).done(function(data){
-                    var p = data;
-                })
-                $(document).trigger('sendRequest', info);
+                var info = {
+                    command: "create",
+                    timestamp: "",
+                    userId: "",
+                    sessionId: "GUIDSESSION",
+                    object: {
+                        objType: "tower",
+                        objId: "GUID827365803754623",
+                        geometry: {
+                            Point: {
+                                lat: 20,
+                                lon: 20
+                            }
+                        },
+                        attributes:
+                        {
+                            material:"ZHELEZHO",
+                            label:"U220-2T",
+                            type:"PVS",
+                            voltage:220000
+                        }
+                    }
+                }
+                $(document).trigger('sendRequest', JSON.stringify(info));
             });
 
             appSettings.map.addInteraction(appSettings.drawer);
