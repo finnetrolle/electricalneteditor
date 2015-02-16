@@ -3,15 +3,14 @@
  */
 requirejs.config({
     map: {
-            'Controllers/BaseController': { 'Interfaces/Services/IAppStartService': 'Services/AppStartService' },
-            'Services/AppStartService': {
-                'Interfaces/Services/IMapService': 'Services/MapService',
-                'Interfaces/Services/IRESTTalker': 'Services/RESTTalker'
+            'mainEditorControl': {
+                'Interfaces/IMapLibInitializer': 'Services/OLMapLibInitializer',
+                'Interfaces/IRESTTalker': 'Services/RESTTalker'
             }
     }
 });
 
-require(['Controllers/BaseController', 'jquery-1.11.2.min.js'], function(Controller){
-    var controller = new Controller();
-    controller.startApplication();
+require(['mainEditorControl', 'jquery-1.11.2.min.js'], function(MainControl){
+    var control = new MainControl();
+    control.startApplication();
 });

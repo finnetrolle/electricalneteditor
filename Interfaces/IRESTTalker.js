@@ -3,7 +3,7 @@
  */
 define([], function(){
     return function IRESTTalker(){
-        this.sendData = function(jsonData){throw new Error('You didn\'t implement IRESTTalker ' +
+        this.sendData = function(jsonData, isAuth){throw new Error('You didn\'t implement IRESTTalker ' +
         'or didn\'t implement sendData method in your service implimentation');};
     };
 })

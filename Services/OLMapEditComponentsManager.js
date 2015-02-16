@@ -1,11 +1,60 @@
 /**
  * Created by Travin on 10.02.2015.
  */
-define(['Interfaces/Services/IMapService', 'ol'], function(Interface, openLayers){
-    return function MapService(){
-        var ol = openLayers;
+define(['Interfaces/Services/IMapEditComponentsManager', 'applicationSettings'], function(Interface, settings){
+    return function(map, params){
         Interface.call(this);
         var appSettings;
+
+        function transformLatLonToMercator(coordinateLikeArray){
+            return ol.proj.transform(coordinateLikeArray, 'EPSG:4326', 'EPSG:3857');
+        };
+
+        function transformMercatorToLatLon(coordinateLikeArray){
+            return ol.proj.transform(coordinateLikeArray, 'EPSG:3857', 'EPSG:4326');
+        };
+
+
+
+        this.init = function(){throw new Error('You didn\'t implement IMapComponentsManager ' +
+        'or didn\'t implement init method in your service implimentation');};
+
+        this.changeDrawedComponent = function(){throw new Error('You didn\'t implement IMapComponentsManager ' +
+        'or didn\'t implement changeDrawedComponent method in your service implimentation');};
+
+        this.startDrawer = function(){throw new Error('You didn\'t implement IMapComponentsManager ' +
+        'or didn\'t implement startDraw method in your service implimentation');};
+
+        this.closeDrawer = function(){throw new Error('You didn\'t implement IMapComponentsManager ' +
+        'or didn\'t implement closeDrawer method in your service implimentation');};
+
+        this.startModification = function(){throw new Error('You didn\'t implement IMapComponentsManager ' +
+        'or didn\'t implement startModification method in your service implimentation');};
+
+        this.endModification = function(){throw new Error('You didn\'t implement IMapComponentsManager ' +
+        'or didn\'t implement endModification method in your service implimentation');};
+
+        this.getElements = function(){throw new Error('You didn\'t implement IMapComponentsManager ' +
+        'or didn\'t implement getElements method in your service implimentation');};
+
+        this.setElements = function(elements){throw new Error('You didn\'t implement IMapComponentsManager ' +
+        'or didn\'t implement setElements method in your service implimentation');};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         this.initMap = function(settings){
             appSettings = settings;

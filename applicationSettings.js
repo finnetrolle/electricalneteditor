@@ -9,7 +9,8 @@ define([], (function(){
             startEditorButton: '.editor-button',
             saveButton: '.save-button',
             closeEditorButton: '.close-editor-button',
-            geometryTypesList: '.geometry-type-list'
+            geometryTypesList: '.geometry-type-list',
+            editComponentsMenu: '.edit-components-menu'
         },
         classes:{
             mapContainerClassName: 'map'
@@ -21,9 +22,6 @@ define([], (function(){
             endEditor: 'endEditor',
             figureTypeChange: 'change',
             endDrawing: 'endDrawing'
-        },
-        hotKeyCodes:{
-            dragKeyCode:'17'
         },
         pointObjects:{
             big:{
