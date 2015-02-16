@@ -5,7 +5,7 @@ requirejs.config({
     map: {
             'mainEditorControl': {
                 'Interfaces/IMapLibInitializer': 'Services/OLMapLibInitializer',
-                'Interfaces/IRESTTalker': 'Services/RESTTalker'
+                'Interfaces/IRESTTalker': 'Services/RestTalker'
             }
     }
 });
