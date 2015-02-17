@@ -1,7 +1,7 @@
 /**
  * Created by Travin on 17.02.2015.
  */
-(define(['Interfaces/IEditMapObjectsConvertor', 'ol'], function(interface, openLayers){
+(define(['Interfaces/IEditMapObjectsConvertor', '../debug-ol'], function(interface, openLayers){
     return function(){
         var ol = openLayers;
         interface.call(this);

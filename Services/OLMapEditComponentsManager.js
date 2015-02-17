@@ -1,7 +1,7 @@
 /**
  * Created by Travin on 10.02.2015.
  */
-define(['Interfaces/IMapEditComponentsManager', 'applicationSettings', 'Interfaces/IEditMapObjectsConvertor', 'ol'], function(Interface, settings, Converter, openLayers){
+define(['Interfaces/IMapEditComponentsManager', 'applicationSettings', 'Interfaces/IEditMapObjectsConvertor', '../debug-ol'], function(Interface, settings, Converter, openLayers){
     return function(mainMap, params){
         Interface.call(this);
         var ol = openLayers;
@@ -56,7 +56,7 @@ define(['Interfaces/IMapEditComponentsManager', 'applicationSettings', 'Interfac
                 type: geometry.type
             });
 
-            setDrawerSettings(drawer);
+            drawer = setDrawerSettings(drawer);
 
             map.addInteraction(drawer);
         }
@@ -66,7 +66,7 @@ define(['Interfaces/IMapEditComponentsManager', 'applicationSettings', 'Interfac
                 features: geometry.featureOverlay.getFeatures()
             });
 
-            setModificatorSettings(modificator);
+            modificator = setModificatorSettings(modificator);
 
             map.addInteraction(modificator);
         };
@@ -83,7 +83,7 @@ define(['Interfaces/IMapEditComponentsManager', 'applicationSettings', 'Interfac
                             ol.coordinate.squaredDistanceToSegment(pixelCoordinate, b.segment);
                     };
 
-                    var pixelToLerance = isModify ? 10 : this.pixelTolerance_;
+                    var pixelToLerance = this.pixelTolerance_;
 
                     var lowerLeft = map.getCoordinateFromPixel(
                         [pixel[0] - pixelToLerance, pixel[1] + pixelToLerance]);
@@ -221,6 +221,8 @@ define(['Interfaces/IMapEditComponentsManager', 'applicationSettings', 'Interfac
                     modificator.handlePointerAtPixel_(event.pixel, event.map, true);
                 }
             };
+
+            return modificator;
         };
 
         function setDrawerSettings(drawer){
@@ -292,7 +294,19 @@ define(['Interfaces/IMapEditComponentsManager', 'applicationSettings', 'Interfac
                 }
                 this.dispatchEvent(new ol.DrawEvent(ol.DrawEventType.DRAWEND, sketchFeature));
             };
+
+            return drawer;
         };
+
+        function setPoint(coordinates){
+            if(modify.vertexFeature_){
+            }else{
+                var feature = new ol.Feature({
+                    geometry: new ol.geom.Point(coordinates)
+                });
+                drawer.features_.push(feature);
+            }
+        }
 
         function transformLatLonToMercator(coordinateLikeArray){
             return ol.proj.transform(coordinateLikeArray, 'EPSG:4326', 'EPSG:3857');
