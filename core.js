@@ -7,14 +7,15 @@ define(['Interfaces/IMapEditComponentsManager', 'EditorComponents/ElectricalNetE
             var appSettings = settings;
             var restTalker = new RESTTalker();
             var editComponentsManager = new EditComponentsManager();
-            var mapComponentManager = new MapComponentsManager();
+            var mapComponentsManager;
 
             this.startApplication = function(){
                 var data = authentification();
                 data = JSON.parse(data);
 
                 var mapLibInitializer = new MapLibInitializer();
-                mapLibInitializer.init(data);
+                var map = mapLibInitializer.init(data);
+                mapComponentsManager = new MapComponentsManager(map)
 
                 if(data.canEdit){
                     editComponentsManager.buildComponentsTree(data);
@@ -28,38 +29,32 @@ define(['Interfaces/IMapEditComponentsManager', 'EditorComponents/ElectricalNetE
 
             function createEventsHandlerForEditComponentsMenu(){
                 $(document).bind(appSettings.eventNames.figureTypeChange, function(e, data){
-                    mapComponentManager.changeDrawedComponent(data);
+                    mapComponentsManager.changeDrawedComponent(data);
                 });
 
                 $(document).bind(appSettings.eventNames.startEditor, function(e){
-                    mapComponentManager.startDrawer();
+                    mapComponentsManager.startDrawerOrModify();
                 });
 
                 $(document).bind(appSettings.eventNames.endEditor, function(e){
-                    mapComponentManager.closeDrawer();
+                    mapComponentsManager.closeDrawerOrModify();
                 });
 
                 $(document).bind('keydown', function(e){
                     if(e.keyCode == 17){
-                        mapComponentManager.startModification();
+                        mapComponentsManager.startModification();
                     }
                 });
 
                 $(document).bind('keyup', function(e){
                     if(e.keyCode == 17){
-                        mapComponentManager.endModification();
+                        mapComponentsManager.endModification();
                     }
                 });
             };
 
             function createEventsHandlerForMapComponentsManager(){
 
-            };
-
-            function loadEditComponentsMenu(){
-                return require(['text!templates/editorComponentsMenuTemplate.html'], function(Template){
-                    return Template;
-                });
             };
 
             function authentification(){

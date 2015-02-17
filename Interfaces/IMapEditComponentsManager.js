@@ -3,16 +3,13 @@
  */
 define([], function(){
     return function(){
-        this.init = function(){throw new Error('You didn\'t implement IMapComponentsManager ' +
-        'or didn\'t implement init method in your service implimentation');};
-
         this.changeDrawedComponent = function(){throw new Error('You didn\'t implement IMapComponentsManager ' +
         'or didn\'t implement changeDrawedComponent method in your service implimentation');};
 
-        this.startDrawer = function(){throw new Error('You didn\'t implement IMapComponentsManager ' +
+        this.startDrawerOrModify = function(){throw new Error('You didn\'t implement IMapComponentsManager ' +
         'or didn\'t implement startDraw method in your service implimentation');};
 
-        this.closeDrawer = function(){throw new Error('You didn\'t implement IMapComponentsManager ' +
+        this.closeDrawerOrModify = function(){throw new Error('You didn\'t implement IMapComponentsManager ' +
         'or didn\'t implement closeDrawer method in your service implimentation');};
 
         this.startModification = function(){throw new Error('You didn\'t implement IMapComponentsManager ' +

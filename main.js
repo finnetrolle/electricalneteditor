@@ -3,14 +3,18 @@
  */
 requirejs.config({
     map: {
-            'mainEditorControl': {
+            'core': {
                 'Interfaces/IMapLibInitializer': 'Services/OLMapLibInitializer',
-                'Interfaces/IRESTTalker': 'Services/RestTalker'
+                'Interfaces/IRESTTalker': 'Services/RestTalker',
+                'Interfaces/IMapEditComponentsManager': 'Services/OLMapEditComponentsManager'
+            },
+            'Services/OLMapEditComponentsManager': {
+                'Interfaces/IEditMapObjectsConvertor': 'Services/OlEditMapObjectsConvertor'
             }
     }
 });
 
-require(['mainEditorControl', 'jquery-1.11.2.min.js'], function(MainControl){
-    var control = new MainControl();
-    control.startApplication();
+require(['core', 'jquery-1.11.2.min.js'], function(Core){
+    var core = new Core();
+    core.startApplication();
 });
