@@ -1,7 +1,7 @@
 /**
  * Created by Travin on 10.02.2015.
  */
-define(['Interfaces/IMapEditComponentsManager', 'applicationSettings', 'Interfaces/IEditMapObjectsConvertor', '../debug-ol'], function(Interface, settings, Converter, openLayers){
+define(['Interfaces/IMapEditComponentsManager', 'applicationSettings', 'Interfaces/IEditMapObjectsConvertor', 'ol'], function(Interface, settings, Converter, openLayers){
     return function(mainMap, params){
         Interface.call(this);
         var ol = openLayers;
@@ -63,7 +63,11 @@ define(['Interfaces/IMapEditComponentsManager', 'applicationSettings', 'Interfac
 
         function initModificator(geometry) {
             modificator = new ol.interaction.Modify({
-                features: geometry.featureOverlay.getFeatures()
+                features: geometry.featureOverlay.getFeatures(),
+                deleteCondition: function(event) {
+                    return ol.events.condition.shiftKeyOnly(event) &&
+                        ol.events.condition.singleClick(event);
+                }
             });
 
             modificator = setModificatorSettings(modificator);
@@ -299,7 +303,7 @@ define(['Interfaces/IMapEditComponentsManager', 'applicationSettings', 'Interfac
         };
 
         function setPoint(coordinates){
-            if(modify.vertexFeature_){
+            if(modificator.vertexFeature_){
             }else{
                 var feature = new ol.Feature({
                     geometry: new ol.geom.Point(coordinates)

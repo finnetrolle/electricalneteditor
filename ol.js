@@ -123667,7 +123667,7 @@ goog.exportProperty(
 
 goog.exportProperty(
     ol.control.ZoomToExtent.prototype,
-    'setProperties',
+    'setProperties',ol-debug.js
     ol.control.ZoomToExtent.prototype.setProperties);
 
 goog.exportProperty(

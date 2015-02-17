@@ -1,7 +1,7 @@
 /**
  * Created by Travin on 16.02.2015.
  */
-define(['Interfaces/IMapLibInitializer', '../debug-ol', 'applicationSettings'], function(MapLibInitializer, OpenLayers, settings){
+define(['Interfaces/IMapLibInitializer', 'ol', 'applicationSettings'], function(MapLibInitializer, OpenLayers, settings){
     return function(){
         var ol = OpenLayers;
         MapLibInitializer.call(this);
