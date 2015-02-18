@@ -1,12 +1,10 @@
 /**
  * Created by Travin on 16.02.2015.
  */
-define(['Interfaces/IMapLibInitializer', 'ol', 'applicationSettings'], function(MapLibInitializer, OpenLayers, settings){
+define(['Interfaces/IMapLibInitializer', 'applicationSettings'], function(MapLibInitializer, settings){
     return function(){
-        var ol = OpenLayers;
         MapLibInitializer.call(this);
         var appSettings = settings;
-
         this.init = function(parameters){
             var view = new ol.View({
                 center: ol.proj.transform(parameters.startCoordinate, 'EPSG:4326', 'EPSG:3857'),

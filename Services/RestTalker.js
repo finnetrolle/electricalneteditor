@@ -1,7 +1,7 @@
 /**
  * Created by Travin on 13.02.2015.
  */
-define(['../Interfaces/IRESTTalker'], function(interface){
+define(['Interfaces/IRESTTalker'], function(interface){
     return function RESTTalker(){
         interface.call(this);
 

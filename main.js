@@ -2,6 +2,12 @@
  * Created by Travin on 10.02.2015.
  */
 requirejs.config({
+    shim: {
+        'ol':{
+            deps: [],
+            exports: 'ol'
+        }
+    },
     map: {
             'core': {
                 'Interfaces/IMapLibInitializer': 'Services/OLMapLibInitializer',

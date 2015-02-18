@@ -15,7 +15,7 @@ define(['Interfaces/IMapEditComponentsManager', 'EditorComponents/ElectricalNetE
 
                 var mapLibInitializer = new MapLibInitializer();
                 var map = mapLibInitializer.init(data);
-                mapComponentsManager = new MapComponentsManager(map)
+                mapComponentsManager = new MapComponentsManager(map);
 
                 if(data.canEdit){
                     editComponentsManager.buildComponentsTree(data);

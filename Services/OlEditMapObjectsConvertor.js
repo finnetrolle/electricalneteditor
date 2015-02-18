@@ -1,11 +1,9 @@
 /**
  * Created by Travin on 17.02.2015.
  */
-(define(['Interfaces/IEditMapObjectsConvertor', 'ol'], function(interface, openLayers){
+define(['Interfaces/IEditMapObjectsConvertor'], function(interface){
     return function(){
-        var ol = openLayers;
         interface.call(this);
-
         this.convertObjectToGeometry = function() {
             return {
                 type: 'LineString',
@@ -35,4 +33,4 @@
             'or didn\'t implement convertGeometryToObject method in your service implimentation');
         };
     }
-}))
+})

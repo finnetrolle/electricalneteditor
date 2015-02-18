@@ -101921,7 +101921,6 @@ ol.interaction.Draw.prototype.createOrUpdateSketchPoint_ = function(event) {
  * @private
  */
 ol.interaction.Draw.prototype.startDrawing_ = function(event) {
-debugger;
   var start = event.coordinate;
   this.finishCoordinate_ = start;
   var geometry;
@@ -102028,7 +102027,6 @@ ol.interaction.Draw.prototype.addToDrawing_ = function(event) {
  * @api
  */
 ol.interaction.Draw.prototype.finishDrawing = function() {
-debugger;
   var sketchFeature = this.abortDrawing_();
   goog.asserts.assert(!goog.isNull(sketchFeature));
   var coordinates;
@@ -123667,7 +123665,7 @@ goog.exportProperty(
 
 goog.exportProperty(
     ol.control.ZoomToExtent.prototype,
-    'setProperties',ol-debug.js
+    'setProperties',
     ol.control.ZoomToExtent.prototype.setProperties);
 
 goog.exportProperty(
