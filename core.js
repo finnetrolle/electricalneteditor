@@ -18,7 +18,7 @@ define(['Interfaces/IMapEditComponentsManager', 'EditorComponents/ElectricalNetE
                 mapComponentsManager = new MapComponentsManager(map);
 
                 if(data.canEdit){
-                    editComponentsManager.buildComponentsTree(data);
+                    editComponentsManager.buildComponentsTree(data.components);
                     editComponentsManager.showEditor();
                 }
 
@@ -28,12 +28,12 @@ define(['Interfaces/IMapEditComponentsManager', 'EditorComponents/ElectricalNetE
             };
 
             function createEventsHandlerForEditComponentsMenu(){
-                $(document).bind(appSettings.eventNames.figureTypeChange, function(e, data){
+                $(document).bind(appSettings.eventNames.changeGeometryType, function(e, data){
                     mapComponentsManager.changeDrawedComponent(data);
                 });
 
-                $(document).bind(appSettings.eventNames.startEditor, function(e){
-                    mapComponentsManager.startDrawerOrModify();
+                $(document).bind(appSettings.eventNames.startEditor, function(e, data){
+                    mapComponentsManager.startDrawerOrModify(data);
                 });
 
                 $(document).bind(appSettings.eventNames.endEditor, function(e){

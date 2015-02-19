@@ -4,28 +4,38 @@
 define(['Interfaces/IEditMapObjectsConvertor'], function(interface){
     return function(){
         interface.call(this);
-        this.convertObjectToGeometry = function() {
-            return {
-                type: 'LineString',
-                featureOverlay: new ol.FeatureOverlay({
-                    style: new ol.style.Style({
-                        stroke: new ol.style.Stroke({
-                            color: 'rgba(120,128,53,0.75)',
-                            width: 2
-                        }),
-                        fill: new ol.style.Fill({
-                            color: 'rgba(255,0,0,0.1)'
-                        }),
-                        image: new ol.style.Icon({
-                            anchor: [0.5, 132],
-                            anchorXUnits: 'fraction',
-                            anchorYUnits: 'pixels',
-                            opacity: 0.5,
-                            src: 'marker.png'
+        this.convertObjectToGeometry = function(object) {
+            var geometryType;
+            var style;
+            switch(object.renderConditions.geometryType) {
+                case 'Point':
+                    geometryType = 'Point';
+                    break;
+                case 'Line':
+                    geometryType = 'LineString';
+                    break;
+            }
+            switch (geometryType){
+                case 'Point':
+                    style = new ol.style.Style({
+                        image: new ol.style.Circle({
+                            radius: object.renderConditions.radius,
+                            fill: new ol.style.Fill({
+                                color: object.renderConditions.color
+                            })
                         })
-                    })
+                    });
+                    break;
+            }
+            var geometry = {
+                type: geometryType,
+                style: style,
+                featureOverlay: new ol.FeatureOverlay({
+                    style: style
                 })
             };
+
+            return geometry;
         };
 
         this.convertGeometryToObject = function(){

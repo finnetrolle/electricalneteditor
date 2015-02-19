@@ -8,15 +8,35 @@ define(['Interfaces/IMapEditComponentsManager', 'Interfaces/IEditMapObjectsConve
         var drawer,
             modificator,
             isEditorOn,
-            isModify;
+            isModify,
+            currentStyle,
+            featureOverlay;
         var map = mainMap;
         var converter = new Convertor();
         var pointCoord = null;
 
         this.startDrawerOrModify = function(object){
+            featureOverlay = new ol.FeatureOverlay({
+                style: new ol.style.Style({
+                    stroke: new ol.style.Stroke({
+                        color: 'black',
+                        width: 2
+                    }),
+                    fill: new ol.style.Fill({
+                        color: 'rgba(255,0,0,0.1)'
+                    }),
+                    image: new ol.style.Icon({
+                        anchor: [0.5, 132],
+                        anchorXUnits: 'fraction',
+                        anchorYUnits: 'pixels',
+                        opacity: 0.5,
+                        src: 'marker.png'
+                    })
+                })
+            });
+            featureOverlay.setMap(map);
             isEditorOn = true;
             var geometry = converter.convertObjectToGeometry(object);
-            geometry.featureOverlay.setMap(map);
             if(!modificator) {
                 initModificator(geometry);
             }
@@ -31,7 +51,8 @@ define(['Interfaces/IMapEditComponentsManager', 'Interfaces/IEditMapObjectsConve
 
         this.changeDrawedComponent = function(object){
             var geometry = converter.convertObjectToGeometry(object);
-            initDrawer(geometry);
+            currentStyle = geometry.style;
+            changeDrawer(geometry);
         };
 
         this.startModification = function(){
@@ -48,12 +69,18 @@ define(['Interfaces/IMapEditComponentsManager', 'Interfaces/IEditMapObjectsConve
         this.setElements = function(elements){throw new Error('You didn\'t implement IMapComponentsManager ' +
         'or didn\'t implement setElements method in your service implimentation');};
 
+        function changeDrawer(geometry){
+            currentStyle = geometry.style;
+            map.removeInteraction(drawer);
+            initDrawer(geometry);
+        };
+
         function initDrawer(geometry){
             if(drawer){
                 var features = drawer.features_.array_;
             }
             drawer = new ol.interaction.Draw({
-                features: geometry.featureOverlay.getFeatures(),
+                features: featureOverlay.getFeatures(),
                 type: geometry.type
             });
 
@@ -64,7 +91,7 @@ define(['Interfaces/IMapEditComponentsManager', 'Interfaces/IEditMapObjectsConve
 
         function initModificator(geometry) {
             modificator = new ol.interaction.Modify({
-                features: geometry.featureOverlay.getFeatures()
+                features: featureOverlay.getFeatures()
             });
 
             setModificatorSettings(modificator);
@@ -157,7 +184,6 @@ define(['Interfaces/IMapEditComponentsManager', 'Interfaces/IEditMapObjectsConve
             };
 
             myModificator.handleDragEvent_ = function(evt) {
-                initDrawer();
                 if(isModify && isEditorOn) {
                     var vertex = pointCoord ? pointCoord : evt.coordinate;
                     for (var i = 0, ii = this.dragSegments_.length; i < ii; ++i) {
@@ -240,6 +266,55 @@ define(['Interfaces/IMapEditComponentsManager', 'Interfaces/IEditMapObjectsConve
                 } else {
                     return false;
                 }
+            };
+
+            myDrawer.__proto__.finishDrawing = function() {
+                var sketchFeature = this.abortDrawing_();
+                goog.asserts.assert(!goog.isNull(sketchFeature));
+                var coordinates;
+                var geometry = sketchFeature.getGeometry();
+                if (this.mode_ === ol.interaction.DrawMode.POINT) {
+                    goog.asserts.assertInstanceof(geometry, ol.geom.Point);
+                    coordinates = geometry.getCoordinates();
+                    if(currentStyle) {
+                        sketchFeature.setStyle(currentStyle);
+                    }
+                } else if (this.mode_ === ol.interaction.DrawMode.LINE_STRING) {
+                    goog.asserts.assertInstanceof(geometry, ol.geom.LineString);
+                    coordinates = geometry.getCoordinates();
+                    // remove the redundant last point
+                    coordinates.pop();
+                    geometry.setCoordinates(coordinates);
+                    if(currentStyle) {
+                        sketchFeature.setStyle(currentStyle);
+                    }
+                } else if (this.mode_ === ol.interaction.DrawMode.POLYGON) {
+                    goog.asserts.assertInstanceof(geometry, ol.geom.Polygon);
+                    // When we finish drawing a polygon on the last point,
+                    // the last coordinate is duplicated as for LineString
+                    // we force the replacement by the first point
+                    this.sketchPolygonCoords_[0].pop();
+                    this.sketchPolygonCoords_[0].push(this.sketchPolygonCoords_[0][0]);
+                    geometry.setCoordinates(this.sketchPolygonCoords_);
+                    coordinates = geometry.getCoordinates();
+                }
+
+                // cast multi-part geometries
+                if (this.type_ === ol.geom.GeometryType.MULTI_POINT) {
+                    sketchFeature.setGeometry(new ol.geom.MultiPoint([coordinates]));
+                } else if (this.type_ === ol.geom.GeometryType.MULTI_LINE_STRING) {
+                    sketchFeature.setGeometry(new ol.geom.MultiLineString([coordinates]));
+                } else if (this.type_ === ol.geom.GeometryType.MULTI_POLYGON) {
+                    sketchFeature.setGeometry(new ol.geom.MultiPolygon([coordinates]));
+                }
+
+                if (!goog.isNull(this.features_)) {
+                    this.features_.push(sketchFeature);
+                }
+                if (!goog.isNull(this.source_)) {
+                    this.source_.addFeature(sketchFeature);
+                }
+                this.dispatchEvent(new ol.DrawEvent(ol.DrawEventType.DRAWEND, sketchFeature));
             };
         };
 

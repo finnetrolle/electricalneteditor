@@ -21,6 +21,7 @@ define([], (function(){
             startEditor: 'startEditor',
             endEditor: 'endEditor',
             figureTypeChange: 'change',
+            changeGeometryType: 'changeGeometry',
             endDrawing: 'endDrawing'
         },
         pointObjects:{

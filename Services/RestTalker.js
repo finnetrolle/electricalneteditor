@@ -28,20 +28,41 @@ define(['Interfaces/IRESTTalker'], function(interface){
             },
             canEdit: true,
             components: {
-                points:[{
-                    type: 'big',
-                    name: 'big point'
-                },{
-                    type: 'small',
-                    name: 'small point'
-                }],
-                lines:[{
-                    type: 'big',
-                    name: 'big line'
-                },{
-                    type: 'small',
-                    name: 'small line'
-                }]
+                towers: [
+                    {
+                        attributes:{
+                            name: 'ПС10П-6АМ',
+                            voltage: '220',
+                            type: 'middle',
+                            material: 'Al'
+                        },
+                        geometry: {
+                            lat: null,
+                            lon: null
+                        },
+                        renderConditions:{
+                            geometryType: 'Point',
+                            color: 'green',
+                            radius: 15
+                        }
+                    },{
+                        attributes:{
+                            name: 'ПК110-1',
+                            voltage: '110',
+                            type: 'angular',
+                            material: 'Wood'
+                        },
+                        geometry: {
+                            lat: null,
+                            lon: null
+                        },
+                        renderConditions:{
+                            geometryType: 'Point',
+                            color: 'blue',
+                            radius: 12
+                        }
+                    }
+                ]
             }
         }
     }
