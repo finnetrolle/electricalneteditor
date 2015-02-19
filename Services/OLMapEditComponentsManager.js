@@ -17,22 +17,6 @@ define(['Interfaces/IMapEditComponentsManager', 'Interfaces/IEditMapObjectsConve
 
         this.startDrawerOrModify = function(object){
             featureOverlay = new ol.FeatureOverlay({
-                style: new ol.style.Style({
-                    stroke: new ol.style.Stroke({
-                        color: 'black',
-                        width: 2
-                    }),
-                    fill: new ol.style.Fill({
-                        color: 'rgba(255,0,0,0.1)'
-                    }),
-                    image: new ol.style.Icon({
-                        anchor: [0.5, 132],
-                        anchorXUnits: 'fraction',
-                        anchorYUnits: 'pixels',
-                        opacity: 0.5,
-                        src: 'marker.png'
-                    })
-                })
             });
             featureOverlay.setMap(map);
             isEditorOn = true;
